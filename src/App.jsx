@@ -9,13 +9,18 @@ function App() {
   const showCartHandler = () => {
     setCartIsShow(true);
   };
+
+  const hideCartHandler = (e) => {
+    e.preventDefault();
+    setCartIsShow(false);
+  };
+
   return (
     <div>
-      {cartIsShow && <Cart />}
+      {cartIsShow && <Cart onClose={hideCartHandler} />}
       <Header onShowCart={showCartHandler} />
       <Hero />
       <Products />
-
     </div>
   );
 }
