@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import "./Cartİtem.css";
+import { CartContext } from "../../context/CartProvider";
 
-const Cartİtem = ({ product }) => {
-  const { name, img, price, amount } = product;
+const CartItem = ({ product }) => {
+  const { removeItem } = useContext(CartContext);
+  const { img, name, amount, price, id } = product;
+
   return (
     <li className="cart-item">
       <div className="cart-item-img">
@@ -11,14 +15,23 @@ const Cartİtem = ({ product }) => {
         <div className="cart-item-texts">
           <b>{name}</b>
           <div>
-            <span>₺{price}x</span>
-            <span>{amount}</span>
+            <span> ₺{price} x </span>
+            <span className="cart-item-amount">{amount}</span>
           </div>
         </div>
-        <a href="/" className="cart-item-remove"></a>
+        <a
+          href="/"
+          className="cart-item-remove"
+          onClick={(e) => {
+            e.preventDefault();
+            removeItem(id);
+          }}
+        >
+          x
+        </a>
       </div>
     </li>
   );
 };
 
-export default Cartİtem;
+export default CartItem;

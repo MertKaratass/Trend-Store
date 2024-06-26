@@ -30,9 +30,14 @@ const cartReducer = (state, action) => {
         totalAmount: state.totalAmount + action.item.price * action.item.amount,
       };
     case "REMOVE":
-      return state;
+      const filterdItems = state.items.filter((item) => item.id !== action.id);
+      const itemToRemove = state.items.find((item) => item.id === action.id);
+      return {
+        items: filterdItems,
+        totalAmount: state.totalAmount - itemToRemove.price,
+      };
     case "CLEAR":
-      return state;
+      return defaultCartState;
     default:
       return state;
   }
@@ -49,8 +54,12 @@ const CartProvider = ({ children }) => {
     addItem: (item) => {
       dispactCartAction({ type: "ADD", item });
     },
-    removeItem: () => {},
-    cleatItem: () => {},
+    removeItem: (id) => {
+      dispactCartAction({ type: "REMOVE", id });
+    },
+    clearItem: () => {
+      dispactCartAction({ type: "CLEAR" });
+    },
   };
   return (
     <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>
